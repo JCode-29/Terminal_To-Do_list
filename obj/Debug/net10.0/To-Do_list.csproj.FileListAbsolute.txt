@@ -1,0 +1,14 @@
+/home/jc29/Projects/VScodium/To-Do_list/bin/Debug/net10.0/To-Do_list
+/home/jc29/Projects/VScodium/To-Do_list/bin/Debug/net10.0/To-Do_list.deps.json
+/home/jc29/Projects/VScodium/To-Do_list/bin/Debug/net10.0/To-Do_list.runtimeconfig.json
+/home/jc29/Projects/VScodium/To-Do_list/bin/Debug/net10.0/To-Do_list.dll
+/home/jc29/Projects/VScodium/To-Do_list/bin/Debug/net10.0/To-Do_list.pdb
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/To-Do_list.GeneratedMSBuildEditorConfig.editorconfig
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/To-Do_list.AssemblyInfoInputs.cache
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/To-Do_list.AssemblyInfo.cs
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/To-Do_list.csproj.CoreCompileInputs.cache
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/To-Do_list.dll
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/refint/To-Do_list.dll
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/To-Do_list.pdb
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/To-Do_list.genruntimeconfig.cache
+/home/jc29/Projects/VScodium/To-Do_list/obj/Debug/net10.0/ref/To-Do_list.dll
