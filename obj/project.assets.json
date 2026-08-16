@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {}
   },
@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/jc29/Projects/VScodium/To-Do_list/To-Do_list.csproj",
+      "projectUniqueName": "/home/jc29/Projects/VScodium/Terminal_To-Do_list/To-Do_list.csproj",
       "projectName": "To-Do_list",
-      "projectPath": "/home/jc29/Projects/VScodium/To-Do_list/To-Do_list.csproj",
+      "projectPath": "/home/jc29/Projects/VScodium/Terminal_To-Do_list/To-Do_list.csproj",
       "packagesPath": "/home/jc29/.nuget/packages/",
-      "outputPath": "/home/jc29/Projects/VScodium/To-Do_list/obj/",
+      "outputPath": "/home/jc29/Projects/VScodium/Terminal_To-Do_list/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/jc29/.nuget/NuGet/NuGet.Config"
@@ -26,11 +26,11 @@
         "net10.0"
       ],
       "sources": {
-        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {}
         }
@@ -45,10 +45,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.400"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "imports": [
           "net461",
@@ -66,7 +67,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.110/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/home/jc29/.dotnet/sdk/10.0.400/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",
