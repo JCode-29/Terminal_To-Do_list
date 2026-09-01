@@ -8,6 +8,13 @@ static void writeSomeLines() //it will write "-" thru whole size of terminal wid
     }
     Console.WriteLine();
 }
+static void codeList()
+{
+    for(int i = 0; i < File.ReadAllLines(path).Length; i++)
+    {
+        Console.WriteLine(i + " - " + File.ReadAllLines(path)[i]);
+    }
+}
 
 static void add()
 {
@@ -15,7 +22,7 @@ static void add()
     
     writeSomeLines();
     Console.Write("type your goal: ");
-    userText = Console.ReadLine();
+    userText = Console.ReadLine() + " - undone";
     Console.WriteLine();
 
     try
@@ -41,11 +48,7 @@ static void list()
 static void remove()
 {
     writeSomeLines();
-
-    for(int i = 0; i < File.ReadAllLines(path).Length; i++)
-    {
-        Console.WriteLine(i + " - " + File.ReadAllLines(path)[i]);
-    }
+    codeList();    
     
     Console.Write("\nWhat line you want to remove -> ");
     List <string> lines = new List<string>(File.ReadAllLines(path));
@@ -61,6 +64,34 @@ static void remove()
     }
 
 }
+static void done()
+{
+    writeSomeLines();
+    codeList(); 
+
+    Console.Write("\nWhat line you want to mark -> ");
+    List <string> markers = new List<string>(File.ReadAllLines(path));
+
+    try
+    {
+        int userInput = Convert.ToInt16(Console.ReadLine());
+
+        if(markers[userInput].Contains("- undone") == true)
+        {
+            markers[userInput] = markers[userInput].Replace("- undone", "- done");
+        }
+        else
+        {
+            markers[userInput] = markers[userInput].Replace("- done", "- undone");
+        }
+
+        File.WriteAllLines(path, markers);
+    }
+    catch
+    {
+        Console.WriteLine("ERROR in done function");
+    }
+}
 static void help()
 {
     writeSomeLines();
@@ -68,6 +99,7 @@ static void help()
     Console.WriteLine("\"Add\" - add something you write");
     Console.WriteLine("\"List\" - give you all info about your save text");
     Console.WriteLine("\"Remove\" - remove text base on your will");
+    Console.WriteLine("\"Done\" - mark your selected text: unmark -> mark, mark -> unmark");
     Console.WriteLine("\"Help\" - you know what that command do :->");
     Console.WriteLine("\"Exit\" - you will close the program");
     Console.WriteLine("     - You can write the command with big or small leters");
@@ -110,6 +142,10 @@ while (true)
 
         case "remove":
             remove();
+            break;
+
+        case "done":
+            done();
             break;
 
         case "help":
