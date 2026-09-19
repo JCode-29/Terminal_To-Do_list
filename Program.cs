@@ -25,6 +25,7 @@ create_table.CommandText =
 create_table.ExecuteNonQuery();
 
 //from tutorial
+/*
 static void conn()
 {
     //Creating a path, folder and file
@@ -94,6 +95,7 @@ static void conn()
     del.Parameters.AddWithValue("@id", 1);
     del.ExecuteNonQuery();
 }
+*/
 static void writeSomeLines() //it will write "-" thru whole size of terminal width
 {
     for(int i = 0; i < Console.WindowWidth; i++)
@@ -143,53 +145,71 @@ static void list(SQLiteConnection connection)
         string done = reader.GetString(2);
         Console.WriteLine($"{id} {text} {(done == "done" ? "done" : "undone")}");
     }
-}/*
+}
 static void remove(SQLiteConnection connection)
 {
     writeSomeLines();
-    //codeList();    
+
+    list(connection);
+    Console.WriteLine("\nWhat you want to remove? Make your chose with id.");
     
-    Console.Write("\nWhat line you want to remove -> ");
-    List <string> lines = new List<string>(File.ReadAllLines(path));
     try
     {
-        lines.RemoveAt(Convert.ToByte(Console.ReadLine()));
-        File.WriteAllLines(path, lines);
+        int userInput = Convert.ToInt32(Console.ReadLine());
+        using var remover = new SQLiteCommand(connection);
+
+        remover.CommandText = $"DELETE FROM [To-Do_list] WHERE Id={userInput}";
+        remover.ExecuteNonQuery();
         Console.WriteLine("Text remove succesfuly");
     }
-    catch
+    catch(Exception ex)
     {
-        Console.WriteLine("ERROR in remove function");
+        Console.WriteLine("ERROR in remove function", ex);
     }
-
 }
-
-static void done()
+static void done(SQLiteConnection connection)
 {
     writeSomeLines();
-    //codeList(); 
 
-    Console.Write("\nWhat line you want to mark -> ");
-    List <string> markers = new List<string>(File.ReadAllLines(path));
+    list(connection);
+    Console.WriteLine("\nWhat line you want to mark as done/undone?");
 
     try
     {
-        int userInput = Convert.ToInt16(Console.ReadLine());
+        int userInput = Convert.ToInt32(Console.ReadLine());
+        string markIs = "";
 
-        if(markers[userInput].Contains("- undone") == true)
+        using var doneMark = new SQLiteCommand(connection);
+        doneMark.CommandText = $"SELECT Done_mark FROM [To-Do_list] WHERE Id={userInput}";
+
+        using (var reader = doneMark.ExecuteReader())
         {
-            markers[userInput] = markers[userInput].Replace("- undone", "- done");
+            if(reader.Read())
+            {
+                markIs = reader.GetString(0);
+            }
+            else
+            {
+                Console.WriteLine("Nothing here");
+                return;
+            }   
+        }
+
+        doneMark.Parameters.Clear();
+        if (markIs == "undone")
+        {
+            doneMark.CommandText = $"UPDATE [To-Do_list] SET Done_Mark = 'done' WHERE Id = {userInput}";
         }
         else
         {
-            markers[userInput] = markers[userInput].Replace("- done", "- undone");
+            doneMark.CommandText = $"UPDATE [To-Do_list] SET Done_Mark = 'undone' WHERE Id = {userInput}";
         }
 
-        File.WriteAllLines(path, markers);
+        doneMark.ExecuteNonQuery();
     }
-    catch
+    catch(Exception ex)
     {
-        Console.WriteLine("ERROR in done function");
+        Console.WriteLine("ERROR in done function", ex);
     }
 }
 static void help()
@@ -213,18 +233,6 @@ static void exit()
 writeSomeLines();
 Console.WriteLine("Type \"help\" for showing all commands.");
 
-//checking, and meaby creating, folder and files
-string? folder = Path.GetDirectoryName(path); //Create a folder if it is not here //string? -> this string might be null
-if (!string.IsNullOrEmpty(folder))
-{
-    Directory.CreateDirectory(folder);
-}
-
-if (!File.Exists(path)) //after that it will create file
-{
-    using(File.Create(path)) {}
-}
-
 //conn();
 
 //main loop 
@@ -236,19 +244,19 @@ while (true)
     switch (Console.ReadLine()!.ToLower())
     {
         case "add":
-            add();
+            add(connection);
             break;
 
         case "list":
-            list();
+            list(connection);
             break;
 
         case "remove":
-            remove();
+            remove(connection);
             break;
 
         case "done":
-            done();
+            done(connection);
             break;
 
         case "help":
@@ -263,9 +271,4 @@ while (true)
             Console.WriteLine("Incorrect command, try again.");
             break;
     }
-}*/
-
-add(connection);
-list(connection);
-//remove(connection);
-list(connection);
+}
