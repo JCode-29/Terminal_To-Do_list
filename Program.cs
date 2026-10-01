@@ -1,4 +1,6 @@
-﻿const string path = "Lists/to-do_list.txt";
+﻿using System.Text.Json;
+
+const string path = "Lists/to-do_list.txt";
 
 static void writeSomeLines() //it will write "-" thru whole size of terminal width
 {
@@ -16,6 +18,7 @@ static void codeList()
     }
 }
 
+/*
 static void add()
 {
     string userText;
@@ -160,4 +163,4 @@ while (true)
             Console.WriteLine("Incorrect command, try again.");
             break;
     }
-}
+}*/
