@@ -14,13 +14,23 @@ class Program
         }
         Console.WriteLine();
     }
-/*
-    static void jsonList() //Pro ulechčení práce, přidej, pokud budeš používat více - čtení a nahrání do listu
+
+    static List<Tasks> jsonList() //Pro ulechčení práce, přidej, pokud budeš používat více - čtení a nahrání do listu
     {
         string json = File.ReadAllText(path);
-        List<Tasks> readTasks = JsonSerializer.Deserialize<List<Tasks>>(json);
+        List<Tasks> tasks;
+
+        if (!string.IsNullOrEmpty(json))
+        {
+            tasks = JsonSerializer.Deserialize<List<Tasks>>(json)!;
+        }
+        else
+        {
+            tasks = new List<Tasks>();
+        }
+        return tasks;
     }
-*/
+
     public class Tasks()
     {
         public int id {get; set;}
@@ -32,6 +42,7 @@ class Program
     static void add()
     {
         string userText;
+        int nextID;
         
         writeSomeLines();
         Console.Write("type your goal: ");
@@ -41,37 +52,41 @@ class Program
             userText = Console.ReadLine()!;
             Console.WriteLine();
 
-            string json = File.ReadAllText(path);
-            List<Tasks> tasks;
+            List<Tasks> tasks = jsonList();
 
-            if (!string.IsNullOrEmpty(json))
+            if(tasks.Count > 0)
             {
-                tasks = JsonSerializer.Deserialize<List<Tasks>>(json)!;
+                nextID = tasks[tasks.Count - 1].id + 1;
             }
             else
             {
-                tasks = new List<Tasks>();
+                nextID = 0;
             }
 
-            tasks.Add(new Tasks {id = tasks.Count, task = userText, done = false });
+            //without nextID, the first input will collaps
+            tasks.Add(new Tasks {id = nextID, task = userText, done = false });
             File.WriteAllText(path, JsonSerializer.Serialize(tasks));
         }
         catch(Exception ex)
         {
             Console.WriteLine("ERROR in add function: " + ex);
         }
-        //Přidává podle počtu, ne podle posledního ID. Opravit!!!
 
-    }/*
+    }
     static void list()
     {
         writeSomeLines();
 
-        for(int i = 0; i < File.ReadAllLines(path).Length; i++)
+        List<Tasks> tasks = jsonList();
+
+        for(int i = 0; i < tasks.Count; i++)
         {
-            Console.WriteLine(File.ReadAllLines(path)[i]);
+            Console.WriteLine($"ID: {tasks[i].id} - Done: {tasks[i].done} - {tasks[i].task} ");
         }
     }
+    //vymazání podle ID
+    
+    /*
     static void remove()
     {
         writeSomeLines();
@@ -198,6 +213,7 @@ class Program
     }*/
     static void Main()
     {
-        add();
+        //add();
+        list();
     }
 }
