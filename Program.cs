@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Dynamic;
 using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
@@ -66,6 +67,8 @@ class Program
             //without nextID, the first input will collaps
             tasks.Add(new Tasks {id = nextID, task = userText, done = false });
             File.WriteAllText(path, JsonSerializer.Serialize(tasks));
+
+            Console.WriteLine("Task added successfuly.");
         }
         catch(Exception ex)
         {
@@ -79,26 +82,38 @@ class Program
 
         List<Tasks> tasks = jsonList();
 
+        if(tasks.Count == 0)
+        {
+            Console.WriteLine("Nothing to list");
+            return;
+        }
+
         for(int i = 0; i < tasks.Count; i++)
         {
             Console.WriteLine($"ID: {tasks[i].id} - Done: {tasks[i].done} - {tasks[i].task} ");
         }
     }
-    //vymazání podle ID
-    
-    /*
     static void remove()
     {
         writeSomeLines();
-        codeList();    
+
+        List<Tasks> tasks = jsonList();
+        if(tasks.Count == 0)
+        {
+            Console.WriteLine("There is nothing to remove");
+            return;
+        }
+
+        list();
+        writeSomeLines();
         
-        Console.Write("\nWhat line you want to remove -> ");
-        List <string> lines = new List<string>(File.ReadAllLines(path));
+        Console.Write("\nWhat line you want to remove, chose with ID -> ");
+        
         try
         {
-            lines.RemoveAt(Convert.ToByte(Console.ReadLine()));
-            File.WriteAllLines(path, lines);
-            Console.WriteLine("Text remove succesfuly");
+            int userInput = Convert.ToInt32(Console.ReadLine());
+            tasks.RemoveAll(t => t.id == userInput); //t => t.id == userInput - vymaže vše, co se rovná userInput. Něco jako for cyklus s if příkazem 
+            File.WriteAllText(path, JsonSerializer.Serialize(tasks));
         }
         catch
         {
@@ -109,25 +124,34 @@ class Program
     static void done()
     {
         writeSomeLines();
-        codeList(); 
 
-        Console.Write("\nWhat line you want to mark -> ");
-        List <string> markers = new List<string>(File.ReadAllLines(path));
+        List<Tasks> tasks = jsonList();
+        if(tasks.Count == 0)
+        {
+            Console.WriteLine("There is nothing to mark");
+            return;
+        }
+
+        list();
+        writeSomeLines();
+
+        Console.Write("\nWhat line you want to mark, put ID here-> ");
 
         try
         {
-            int userInput = Convert.ToInt16(Console.ReadLine());
+            int userInput = Convert.ToInt32(Console.ReadLine());
 
-            if(markers[userInput].Contains("- undone") == true)
+            var markTask = tasks.Find(t => t.id == userInput)!;
+            if(markTask.done == true)
             {
-                markers[userInput] = markers[userInput].Replace("- undone", "- done");
+                markTask.done = false;
             }
             else
             {
-                markers[userInput] = markers[userInput].Replace("- done", "- undone");
+                markTask.done = true;
             }
 
-            File.WriteAllLines(path, markers);
+            File.WriteAllText(path, JsonSerializer.Serialize(tasks));
         }
         catch
         {
@@ -150,26 +174,14 @@ class Program
     {
         Environment.Exit(0); //immediately close terminal
     }
-
-    //Give for user 1 command to get know all other commands
-    writeSomeLines();
-    Console.WriteLine("Type \"help\" for showing all commands.");
-
-    //checking, and meaby creating, folder and files
-    string? folder = Path.GetDirectoryName(path); //Create a folder if it is not here //string? -> this string might be null
-    if (!string.IsNullOrEmpty(folder))
-    {
-        Directory.CreateDirectory(folder);
-    }
-
-    if (!File.Exists(path)) //after that it will create file
-    {
-        using(File.Create(path)) {}
-    }
-
     
     static void Main()
     {
+        writeSomeLines();
+        Console.WriteLine("Type \"help\" for showing all commands.");
+
+        File.Create(path).Close();
+
         if (File.Exists(path) == false)
         {
             File.WriteAllText(Path.Combine("Lists", "json_To-Do_list.json"), []);
@@ -210,10 +222,5 @@ class Program
                     break;
             }
         }
-    }*/
-    static void Main()
-    {
-        //add();
-        list();
     }
 }
